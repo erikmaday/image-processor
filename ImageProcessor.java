@@ -1,3 +1,11 @@
+/**
+ * This class uses Aaron Friesen's Pic and Pixel classes
+ * to create methods to filter/process images in a few ways
+ *
+ * @author Erik Maday
+ * @version 1.0
+ */
+
 class ImageProcessor {
     private Pic picture;
 

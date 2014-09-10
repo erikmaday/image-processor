@@ -71,20 +71,60 @@ class ImageProcessor {
     }
 
     /**
-    * Averages the RGB color channels for each pixel and if the
-    * average is above the 127 threshold the pixel is set to
-    * white, otherwise it is set to black.
+    * Sets of green value of each pixel to zero, leaving only
+    * the red and the blue channels to affect the image.
     *
     * @return The modified copy of the picture.
     */
-    public Pic blackAndWhite() {
+    public Pic noGreen() {
         Pic temp = picture.deepCopy();
+        Pixel[][] data = temp.getPixels();
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j].setGreen(0);
+            }
+        }
+        return temp;
+    }
+
+    /**
+    * Sets of blue value of each pixel to zero, leaving only
+    * the red and the green channels to affect the image.
+    *
+    * @return The modified copy of the picture.
+    */
+    public Pic noBlue() {
+        Pic temp = picture.deepCopy();
+        Pixel[][] data = temp.getPixels();
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j].setBlue(0);
+            }
+        }
+        return temp;
+    }
+
+    /**
+    * Averages the RGB color channels for each pixel and if the
+    * average is above the user-defined threshold the pixel is set to
+    * white, otherwise it is set to black.
+    * If the user enters a threshold out of the range, the original
+    * image is returned.
+    * 
+    * @param black & white threshold
+    * @return The modified copy of the picture.
+    */
+    public Pic blackAndWhite(int threshold) {
+        if (threshold > 255 || threshold < 0) {
+			return picture;
+		}
+		Pic temp = picture.deepCopy();
         Pixel[][] data = temp.getPixels();
         int replacementColor;
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length; j++) {
                 if (((data[i][j].getRed() + data[i][j].getGreen()
-                    + data[i][j].getBlue()) / 3) > 127) {
+                    + data[i][j].getBlue()) / 3) > threshold) {
                     replacementColor = 255;
                 } else {
                     replacementColor = 0;
